@@ -14,7 +14,7 @@ Input:
   SELF_SERVICE_DISPLAY_NAME: "Install Latest %NAME%"
   SELF_SERVICE_DESCRIPTION: Google Chrome is a browser that combines a minimal design with sophisticated technology to make the web faster, safer, and easier.
   SELF_SERVICE_ICON: "%NAME%.png"
-  UPDATE_PREDICATE: "pkg_uploaded == False"
+  UPDATE_PREDICATE: "pkg_uploaded == True"
 
 Process:
   - Processor: com.github.grahampugh.jamf-upload.processors/JamfCategoryUploader
