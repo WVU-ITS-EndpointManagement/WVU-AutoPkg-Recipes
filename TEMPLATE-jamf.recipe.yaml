@@ -1,0 +1,43 @@
+Description: |
+  THIS IS A TEMPLATE FOR WVU-ENDPOINT please contact jordan.braham@mail.wvu.edu if you see an error.
+Identifier: com.github.WVU-ITS-EndpointManagement.WVU-AutoPkg-Recipes
+MinimumVersion: "1"
+# This is where you put the parent pkg builder recipe
+ParentRecipe: com.github.autopkg.pkg.Firefox_EN
+
+Input:
+  # Package Name
+  NAME: Firefox
+  # Package Category
+  CATEGORY: Apps
+  # Policy Custom Trigger
+  CUSTOM_TRIGGER: install_latest_firefox
+  # Policy Settings
+  POLICY_CATEGORY: Apps
+  POLICY_TEMPLATE: JamfPolicyTemplate.xml
+  POLICY_NAME: "Install Latest %NAME%"
+  # Self Service Settings
+  SELF_SERVICE_DISPLAY_NAME: "Install Latest %NAME%"
+  # CHANGE THIS DESCRIPTION
+  SELF_SERVICE_DESCRIPTION: CHANGE ME -Default Description-
+  SELF_SERVICE_ICON: "%NAME%.png"
+  UPDATE_PREDICATE: "pkg_uploaded == False"
+
+Process:
+  - Processor: com.github.grahampugh.jamf-upload.processors/JamfCategoryUploader
+    Arguments:
+      category_name: "%CATEGORY%"
+
+  - Processor: com.github.grahampugh.jamf-upload.processors/JamfPackageUploader
+    Arguments:
+      category_name: "%CATEGORY%"
+
+  - Processor: StopProcessingIf
+    Arguments:
+      predicate: "%UPDATE_PREDICATE%"
+
+  - Processor: com.github.grahampugh.jamf-upload.processors/JamfPolicyUploader
+    Arguments:
+      policy_template: "%POLICY_TEMPLATE%"
+      policy_name: "%POLICY_NAME%"
+      icon: "%SELF_SERVICE_ICON%"
